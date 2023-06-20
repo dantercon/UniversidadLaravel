@@ -1,0 +1,62 @@
+@extends('adminlte::page')
+
+@section('title', 'Carrera')
+
+@section('content_header')
+    <h1>Carrera</h1>
+@stop
+
+@section('content')
+    <a href="carrera/create" class="btn btn-primary mb-3">Crear</a>
+    <table id="tabla_carrera" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Codigo</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apertura</th>
+                <th scope="col">Cierre</th>
+                <th scope="col">Reseña</th>
+                <th scope="col">Accion</th>
+            </tr>
+            <tbody>
+                @foreach ($carreras as $carrera)
+                    <tr>
+                        <td>{{ $carrera->id}}</td>
+                        <td>{{ $carrera->codigo}}</td>
+                        <td>{{ $carrera->nombre}}</td>
+                        <td>{{ $carrera->apertura}}</td>
+                        <td>{{ $carrera->cierre}}</td>
+                        <td>{{ $carrera->resena}}</td>
+                        <td>
+                            <form action="{{ route ('carrera.destroy', $carrera->id) }}" method="POST">
+                                <a href="/carrera/{{$carrera->id}}/edit" class="btn btn-info">Editar</a>
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </thead>
+    </table>
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+@stop
+
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tabla_carrera').DataTable({
+                "lengthMenu":[[5,10,50,-1], [5, 10, 50, "All" ]]
+            });
+        });
+    </script>
+@stop
